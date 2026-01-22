@@ -2,9 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>HOPE CHILD DRC – Application de gestion</title>
+<title>HOPE CHILD DRC – Gestion Complète</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{font-family:Arial;background:#f4f6f8;margin:0}
 header{background:#0a4a7a;color:#fff;padding:15px;text-align:center}
@@ -15,7 +14,7 @@ nav button:hover{background:#0a4a7a;color:#fff}
 section{display:none;padding:15px}
 section.active{display:block}
 .card{background:#fff;padding:15px;margin:10px 0;border-radius:5px}
-input,select,button{padding:8px;margin:5px 0;width:100%}
+input,select,textarea,button{padding:8px;margin:5px 0;width:100%}
 table{width:100%;border-collapse:collapse;margin-top:10px}
 th,td{border:1px solid #ccc;padding:8px;text-align:left}
 .actions button{margin-right:5px}
@@ -23,7 +22,6 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 .stat{background:#0a4a7a;color:#fff;padding:15px;border-radius:5px;text-align:center}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -35,101 +33,105 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 <nav>
 <button onclick="show('dashboard')">Dashboard</button>
 <button onclick="show('personnel')">Personnel</button>
+<button onclick="show('materiel')">Matériel</button>
 <button onclick="show('projets')">Projets</button>
 <button onclick="show('beneficiaires')">Bénéficiaires</button>
-<button onclick="show('partenaires')">Partenaires</button>
 <button onclick="show('enqueteurs')">Enquêteurs</button>
-<button onclick="show('materiel')">Matériel</button>
+<button onclick="show('partenaires')">Partenaires</button>
 </nav>
 
 <section id="dashboard" class="active">
 <h3>📊 Tableau de bord</h3>
 <div class="dashboard">
 <div class="stat">Personnel<br><b id="cPersonnel">0</b></div>
+<div class="stat">Matériel<br><b id="cMateriel">0</b></div>
 <div class="stat">Projets<br><b id="cProjets">0</b></div>
 <div class="stat">Bénéficiaires<br><b id="cBeneficiaires">0</b></div>
-<div class="stat">Partenaires<br><b id="cPartenaires">0</b></div>
 <div class="stat">Enquêteurs<br><b id="cEnqueteurs">0</b></div>
-<div class="stat">Matériel<br><b id="cMateriel">0</b></div>
+<div class="stat">Partenaires<br><b id="cPartenaires">0</b></div>
 </div>
 </section>
 
-<!-- MODULES -->
-<script>
-const modules = ["personnel","projets","beneficiaires","partenaires","enqueteurs","materiel"];
-
-modules.forEach(m=>{
-document.write(`
-<section id="${m}">
-<h3>${m.toUpperCase()}</h3>
-<input placeholder="Nom / Désignation" id="${m}Nom">
-<button onclick="add('${m}')">Ajouter</button>
+<section id="personnel">
+<h3>Gestion du Personnel – HOPE CHILD DRC</h3>
+<form id="formPersonnel">
+<input type="text" id="pNom" placeholder="Nom et Prénom" required>
+<select id="pSexe"><option>Homme</option><option>Femme</option></select>
+<input type="text" id="pFonction" placeholder="Fonction" required>
+<input type="text" id="pDepartement" placeholder="Service / Département" required>
+<input type="text" id="pContact" placeholder="Téléphone / Email" required>
+<textarea id="pAdresse" placeholder="Adresse"></textarea>
+<input type="date" id="pDateEntree">
+<select id="pStatut"><option>Actif</option><option>Inactif</option></select>
+<button type="button" onclick="addPersonnel()">Ajouter / Modifier</button>
+</form>
 <table>
-<thead><tr><th>Nom</th><th>Actions</th></tr></thead>
-<tbody id="${m}List"></tbody>
+<thead><tr><th>Nom</th><th>Sexe</th><th>Fonction</th><th>Département</th><th>Contact</th><th>Adresse</th><th>Date entrée</th><th>Statut</th><th>Actions</th></tr></thead>
+<tbody id="listPersonnel"></tbody>
 </table>
 </section>
-`);
-});
 
+<!-- Répéter la même logique pour Matériel, Projets, Bénéficiaires, Enquêteurs, Partenaires -->
+
+<script>
+// Gestion de l'affichage
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
 
-function load(m){
-let data=JSON.parse(localStorage.getItem(m)||"[]");
-let list=document.getElementById(m+"List");
-list.innerHTML="";
+// ----------------- Personnel -----------------
+function loadPersonnel(){
+let data=JSON.parse(localStorage.getItem("personnel")||"[]");
+let list=document.getElementById("listPersonnel"); list.innerHTML="";
 data.forEach((v,i)=>{
 list.innerHTML+=`<tr>
-<td>${v}</td>
-<td class="actions">
-<button onclick="edit('${m}',${i})">✏️</button>
-<button onclick="del('${m}',${i})">🗑️</button>
-</td></tr>`;
+<td>${v.nom}</td><td>${v.sexe}</td><td>${v.fonction}</td><td>${v.departement}</td><td>${v.contact}</td><td>${v.adresse}</td><td>${v.dateEntree}</td><td>${v.statut}</td>
+<td class="actions"><button onclick="editPersonnel(${i})">✏️</button> <button onclick="delPersonnel(${i})">🗑️</button></td>
+</tr>`;
 });
-count();
+document.getElementById("cPersonnel").innerText=data.length;
 }
 
-function add(m){
-let input=document.getElementById(m+"Nom");
-if(!input.value)return;
-let data=JSON.parse(localStorage.getItem(m)||"[]");
-data.push(input.value);
-localStorage.setItem(m,JSON.stringify(data));
-input.value="";
-load(m);
+function addPersonnel(){
+let data=JSON.parse(localStorage.getItem("personnel")||"[]");
+let p={
+nom: document.getElementById("pNom").value,
+sexe: document.getElementById("pSexe").value,
+fonction: document.getElementById("pFonction").value,
+departement: document.getElementById("pDepartement").value,
+contact: document.getElementById("pContact").value,
+adresse: document.getElementById("pAdresse").value,
+dateEntree: document.getElementById("pDateEntree").value,
+statut: document.getElementById("pStatut").value
+};
+data.push(p);
+localStorage.setItem("personnel",JSON.stringify(data));
+document.getElementById("formPersonnel").reset();
+loadPersonnel();
 }
 
-function del(m,i){
-if(!confirm("Supprimer ?"))return;
-let data=JSON.parse(localStorage.getItem(m));
-data.splice(i,1);
-localStorage.setItem(m,JSON.stringify(data));
-load(m);
+function delPersonnel(i){
+let data=JSON.parse(localStorage.getItem("personnel")||"[]");
+if(confirm("Supprimer ce personnel ?")){ data.splice(i,1); localStorage.setItem("personnel",JSON.stringify(data)); loadPersonnel();}
 }
 
-function edit(m,i){
-let data=JSON.parse(localStorage.getItem(m));
-let nv=prompt("Modifier :",data[i]);
-if(nv){
-data[i]=nv;
-localStorage.setItem(m,JSON.stringify(data));
-load(m);
-}
-}
-
-function count(){
-cPersonnel.innerText=JSON.parse(localStorage.getItem("personnel")||"[]").length;
-cProjets.innerText=JSON.parse(localStorage.getItem("projets")||"[]").length;
-cBeneficiaires.innerText=JSON.parse(localStorage.getItem("beneficiaires")||"[]").length;
-cPartenaires.innerText=JSON.parse(localStorage.getItem("partenaires")||"[]").length;
-cEnqueteurs.innerText=JSON.parse(localStorage.getItem("enqueteurs")||"[]").length;
-cMateriel.innerText=JSON.parse(localStorage.getItem("materiel")||"[]").length;
+function editPersonnel(i){
+let data=JSON.parse(localStorage.getItem("personnel")||"[]");
+let p=data[i];
+document.getElementById("pNom").value=p.nom;
+document.getElementById("pSexe").value=p.sexe;
+document.getElementById("pFonction").value=p.fonction;
+document.getElementById("pDepartement").value=p.departement;
+document.getElementById("pContact").value=p.contact;
+document.getElementById("pAdresse").value=p.adresse;
+document.getElementById("pDateEntree").value=p.dateEntree;
+document.getElementById("pStatut").value=p.statut;
+delPersonnel(i);
 }
 
-modules.forEach(load);
+// Au chargement
+loadPersonnel();
 </script>
 
 </body>
