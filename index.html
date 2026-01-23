@@ -5,7 +5,7 @@
 <title>HOPE CHILD DRC – Gestion Complète</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{font-family:Arial;background:#f4f6f8;margin:0}
+body{font-family:Arial;background:#f4f6f8;margin:0;color:#333}
 header{background:#0a4a7a;color:#fff;padding:15px;text-align:center}
 header img{height:60px}
 nav{display:flex;flex-wrap:wrap;background:#fff;border-bottom:1px solid #ccc}
@@ -20,39 +20,56 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 .actions button{margin-right:5px}
 .dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .stat{background:#0a4a7a;color:#fff;padding:15px;border-radius:5px;text-align:center}
+/* Mode sombre optionnel */
+body.dark{background:#1e1e1e;color:#ccc}
+body.dark header, body.dark .stat{background:#333;color:#fff}
+body.dark table, body.dark th, body.dark td{border:1px solid #555;color:#ccc}
 </style>
 </head>
 <body>
 
+<!-- ================== PARTIE 3 : LOGIN & ROLES ================== -->
+<section id="login">
+  <h3>Connexion HOPE CHILD DRC</h3>
+  <input type="text" id="username" placeholder="Nom d'utilisateur">
+  <input type="password" id="password" placeholder="Mot de passe">
+  <button onclick="login()">Se connecter</button>
+  <p id="loginMsg" style="color:red"></p>
+  <p>Exemple admin: HOPECHILD / 1234</p>
+</section>
+
 <header>
-<img src="logo.png" alt="HOPE CHILD DRC">
-<h2>Application de gestion des données – HOPE CHILD DRC</h2>
-<p>Fonctionne hors Internet • Sécurisée • Rapide</p>
+  <img src="logo.png" alt="HOPE CHILD DRC">
+  <h2>Application de gestion des données – HOPE CHILD DRC</h2>
+  <p>Ensemble, redonnons espoir et avenir à chaque enfant</p>
+  <small>Version 1.0 – 2026</small>
 </header>
 
 <nav>
-<button onclick="show('dashboard')">Dashboard</button>
-<button onclick="show('personnel')">Personnel</button>
-<button onclick="show('materiel')">Matériel</button>
-<button onclick="show('projets')">Projets</button>
-<button onclick="show('beneficiaires')">Bénéficiaires</button>
-<button onclick="show('enqueteurs')">Enquêteurs</button>
-<button onclick="show('partenaires')">Partenaires</button>
+  <button onclick="show('dashboard')">Dashboard</button>
+  <button onclick="show('personnel')">Personnel</button>
+  <button onclick="show('materiel')">Matériel</button>
+  <button onclick="show('projets')">Projets</button>
+  <button onclick="show('beneficiaires')">Bénéficiaires</button>
+  <button onclick="show('enqueteurs')">Enquêteurs</button>
+  <button onclick="show('partenaires')">Partenaires</button>
 </nav>
 
+<!-- ================== DASHBOARD ================== -->
 <section id="dashboard" class="active">
-<h3>📊 Tableau de bord</h3>
-<div class="dashboard">
-<div class="stat">Personnel<br><b id="cPersonnel">0</b></div>
-<div class="stat">Matériel<br><b id="cMateriel">0</b></div>
-<div class="stat">Projets<br><b id="cProjets">0</b></div>
-<div class="stat">Bénéficiaires<br><b id="cBeneficiaires">0</b></div>
-<div class="stat">Enquêteurs<br><b id="cEnqueteurs">0</b></div>
-<div class="stat">Partenaires<br><b id="cPartenaires">0</b></div>
-</div>
+  <h3>📊 Tableau de bord</h3>
+  <div class="dashboard">
+    <div class="stat">Personnel<br><b id="cPersonnel">0</b></div>
+    <div class="stat">Matériel<br><b id="cMateriel">0</b></div>
+    <div class="stat">Projets<br><b id="cProjets">0</b></div>
+    <div class="stat">Bénéficiaires<br><b id="cBeneficiaires">0</b></div>
+    <div class="stat">Enquêteurs<br><b id="cEnqueteurs">0</b></div>
+    <div class="stat">Partenaires<br><b id="cPartenaires">0</b></div>
+  </div>
 </section>
 
-<!-- ================== MODULE PERSONNEL ================== -->
+<!-- ================== MODULES ================== -->
+<!-- Personnel -->
 <section id="personnel">
 <h3>Gestion du Personnel – HOPE CHILD DRC</h3>
 <form id="formPersonnel">
@@ -72,7 +89,7 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 </table>
 </section>
 
-<!-- ================== MODULE MATERIEL ================== -->
+<!-- Matériel -->
 <section id="materiel">
 <h3>Gestion du Matériel – HOPE CHILD DRC</h3>
 <form id="formMateriel">
@@ -90,7 +107,7 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 </table>
 </section>
 
-<!-- ================== MODULE PROJETS ================== -->
+<!-- Projets -->
 <section id="projets">
 <h3>Gestion des Projets – HOPE CHILD DRC</h3>
 <form id="formProjets">
@@ -111,7 +128,7 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 </table>
 </section>
 
-<!-- ================== MODULE BÉNÉFICIAIRES ================== -->
+<!-- Bénéficiaires -->
 <section id="beneficiaires">
 <h3>Gestion des Bénéficiaires – HOPE CHILD DRC</h3>
 <form id="formBeneficiaires">
@@ -130,7 +147,7 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 </table>
 </section>
 
-<!-- ================== MODULE ENQUÊTEURS ================== -->
+<!-- Enquêteurs -->
 <section id="enqueteurs">
 <h3>Gestion des Enquêteurs – HOPE CHILD DRC</h3>
 <form id="formEnqueteurs">
@@ -148,7 +165,7 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 </table>
 </section>
 
-<!-- ================== MODULE PARTENAIRES ================== -->
+<!-- Partenaires -->
 <section id="partenaires">
 <h3>Gestion des Partenaires – HOPE CHILD DRC</h3>
 <form id="formPartenaires">
@@ -166,44 +183,58 @@ th,td{border:1px solid #ccc;padding:8px;text-align:left}
 </table>
 </section>
 
+<footer style="text-align:center;background:#eee;padding:10px;margin-top:20px;font-size:12px">
+© HOPE CHILD DRC – Tous droits réservés<br>
+Contacts: +243 901 945 827 / +243 995 349 736 | hopechildrdc@gmail.com<br>
+Application interne – Données confidentielles
+</footer>
+
 <script>
-// ---------- AFFICHAGE ----------
-function show(id){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
+// ---------- AFFICHAGE ----------  
+function show(id){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}  
 
-// ---------- FONCTIONS GÉNÉRIQUES ----------
-function count(moduleId,listId){document.getElementById(moduleId).innerText=JSON.parse(localStorage.getItem(listId)||"[]").length;}
+// ---------- LOGIN & ROLES ----------
+const users=[
+  {user:"HOPECHILD",pass:"1234",role:"admin"},
+  {user:"user1",pass:"abcd",role:"utilisateur"},
+  {user:"guest",pass:"0000",role:"observateur"}
+];
+document.querySelector("nav").style.display="none";
+document.querySelectorAll("section").forEach(s=>{if(s.id!=="login") s.style.display="none";});
+function login(){
+  let u=document.getElementById("username").value;
+  let p=document.getElementById("password").value;
+  let msg=document.getElementById("loginMsg");
+  let found=users.find(x=>x.user===u && x.pass===p);
+  if(found){
+    document.getElementById("login").style.display="none";
+    document.querySelector("nav").style.display="flex";
+    show('dashboard'); msg.innerText="";
+    if(found.role==="observateur"){
+      document.querySelectorAll("button").forEach(b=>{if(b.innerText.includes("Ajouter")||b.innerText.includes("✏️")||b.innerText.includes("🗑️")){b.style.display="none";}});
+    } else if(found.role==="utilisateur"){
+      document.querySelectorAll("button").forEach(b=>{if(b.innerText.includes("🗑️")) b.style.display="none";});
+    }
+    alert("Bienvenue "+found.user+" ("+found.role+")");
+  } else {msg.innerText="Nom d'utilisateur ou mot de passe incorrect !";}
+}
 
-// ---------- PERSONNEL ----------
+// ---------- FONCTIONS GENERIQUES & LOCALSTORAGE ----------
+function count(moduleId,listId){document.getElementById(moduleId).innerText=JSON.parse(localStorage.getItem(listId)||"[]").length;}  
+
+// === Exemple : Personnel ===
 function loadPersonnel(){
-let data=JSON.parse(localStorage.getItem("personnel")||"[]"),list=document.getElementById("listPersonnel");
-list.innerHTML="";
-data.forEach((v,i)=>{list.innerHTML+=`<tr><td>${v.nom}</td><td>${v.sexe}</td><td>${v.fonction}</td><td>${v.departement}</td><td>${v.contact}</td><td>${v.adresse}</td><td>${v.dateEntree}</td><td>${v.statut}</td><td class="actions"><button onclick="editPersonnel(${i})">✏️</button><button onclick="delPersonnel(${i})">🗑️</button></td></tr>`});
-count("cPersonnel","personnel");
+  let data=JSON.parse(localStorage.getItem("personnel")||"[]"),list=document.getElementById("listPersonnel");
+  list.innerHTML="";
+  data.forEach((v,i)=>{list.innerHTML+=`<tr><td>${v.nom}</td><td>${v.sexe}</td><td>${v.fonction}</td><td>${v.departement}</td><td>${v.contact}</td><td>${v.adresse}</td><td>${v.dateEntree}</td><td>${v.statut}</td><td class="actions"><button onclick="editPersonnel(${i})">✏️</button><button onclick="delPersonnel(${i})">🗑️</button></td></tr>`});
+  count("cPersonnel","personnel");
 }
-function addPersonnel(){
-let data=JSON.parse(localStorage.getItem("personnel")||"[]");
-let p={nom:document.getElementById("pNom").value,sexe:document.getElementById("pSexe").value,fonction:document.getElementById("pFonction").value,departement:document.getElementById("pDepartement").value,contact:document.getElementById("pContact").value,adresse:document.getElementById("pAdresse").value,dateEntree:document.getElementById("pDateEntree").value,statut:document.getElementById("pStatut").value};
-data.push(p);
-localStorage.setItem("personnel",JSON.stringify(data));
-document.getElementById("formPersonnel").reset();
-loadPersonnel();
-}
+function addPersonnel(){let data=JSON.parse(localStorage.getItem("personnel")||"[]");let p={nom:document.getElementById("pNom").value,sexe:document.getElementById("pSexe").value,fonction:document.getElementById("pFonction").value,departement:document.getElementById("pDepartement").value,contact:document.getElementById("pContact").value,adresse:document.getElementById("pAdresse").value,dateEntree:document.getElementById("pDateEntree").value,statut:document.getElementById("pStatut").value};data.push(p);localStorage.setItem("personnel",JSON.stringify(data));document.getElementById("formPersonnel").reset();loadPersonnel();}
 function delPersonnel(i){let data=JSON.parse(localStorage.getItem("personnel")||"[]");if(confirm("Supprimer ce personnel ?")){data.splice(i,1);localStorage.setItem("personnel",JSON.stringify(data));loadPersonnel();}}
 function editPersonnel(i){let data=JSON.parse(localStorage.getItem("personnel")||"[]"),p=data[i];document.getElementById("pNom").value=p.nom;document.getElementById("pSexe").value=p.sexe;document.getElementById("pFonction").value=p.fonction;document.getElementById("pDepartement").value=p.departement;document.getElementById("pContact").value=p.contact;document.getElementById("pAdresse").value=p.adresse;document.getElementById("pDateEntree").value=p.dateEntree;document.getElementById("pStatut").value=p.statut;delPersonnel(i);}
 
-// ---------- MATERIEL ----------
+// === Matériel ===
 function loadMateriel(){let data=JSON.parse(localStorage.getItem("materiel")||"[]"),list=document.getElementById("listMateriel");list.innerHTML="";data.forEach((v,i)=>{list.innerHTML+=`<tr><td>${v.nom}</td><td>${v.categorie}</td><td>${v.etat}</td><td>${v.date}</td><td>${v.responsable}</td><td>${v.lieu}</td><td class="actions"><button onclick="editMateriel(${i})">✏️</button><button onclick="delMateriel(${i})">🗑️</button></td></tr>`});count("cMateriel","materiel");}
 function addMateriel(){let data=JSON.parse(localStorage.getItem("materiel")||"[]");let m={nom:document.getElementById("mNom").value,categorie:document.getElementById("mCategorie").value,etat:document.getElementById("mEtat").value,date:document.getElementById("mDate").value,responsable:document.getElementById("mResponsable").value,lieu:document.getElementById("mLieu").value};data.push(m);localStorage.setItem("materiel",JSON.stringify(data));document.getElementById("formMateriel").reset();loadMateriel();}
 function delMateriel(i){let data=JSON.parse(localStorage.getItem("materiel")||"[]");if(confirm("Supprimer ce matériel ?")){data.splice(i,1);localStorage.setItem("materiel",JSON.stringify(data));loadMateriel();}}
-function editMateriel(i){let data=JSON.parse(localStorage.getItem("materiel")||"[]"),m=data[i];document.getElementById("mNom").value=m.nom;document.getElementById("mCategorie").value=m.categorie;document.getElementById("mEtat").value=m.etat;document.getElementById("mDate").value=m.date;document.getElementById("mResponsable").value=m.responsable;document.getElementById("mLieu").value=m.lieu;delMateriel(i);}
-
-// ---------- AUTRES MODULES (Projets, Bénéficiaires, Enquêteurs, Partenaires) ----------
-// Même logique que ci-dessus, on peut continuer pour les ajouter
-
-// Exemple : charger le personnel au départ
-loadPersonnel();
-loadMateriel();
-</script>
-
-</body>
-</html>
+function editMateriel(i){let data=JSON.parse(localStorage.getItem("materiel")||"[]"),m=data[i];document.getElementById("mNom").value=m.nom;document.getElementById("m
